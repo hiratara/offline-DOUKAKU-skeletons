@@ -2,21 +2,24 @@ module Main where
 import Test.HUnit
 import Answer
 
+-- referring to source of words 
+-- http://www.haskell.org/ghc/docs/latest/html/libraries/base-4.6.0.0/src/Data-List.html#words
+split f s =
+    case dropWhile f s of
+         "" -> []
+         s' -> w : words s''
+               where (w, s'') = break f s'
+
+doAssert [name, input, expected] =
+    assertEqual name expected (solve input)
+
 main :: IO ()
-main = do
-  eachLines <- lines `fmap` readFile "patterns.tsv"
-  patterns <- return $ split3 `fmap` eachLines
-  tests <- return $ (TestCase . doAssert) `fmap` patterns
-  runTestTT $ TestList tests
-  return ()
-    where split3 str = let (x, xs)   = split str
-                           (x', x'') = split xs
-                       in (x, x', x'')
-          split = (id >< tail) . break (== '\t')
-          doAssert (name, input, expected) =
-              assertEqual name expected (solve input)
-          (><) :: (a -> b) -> (c -> d) -> (a, c) -> (b, d)
-          (f >< g) (x, y) = (f x, g y)
+main =
+    readFile "patterns.tsv"
+    >>= return . lines
+    >>= return . test . map (doAssert . split (== '\t'))
+    >>= runTestTT
+    >>  return ()
 
 -- % runhaskell test.hs
 -- ### Failure in: 1

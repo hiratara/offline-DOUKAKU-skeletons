@@ -26,18 +26,23 @@ struct Pattern
 int main(int, char* [])
 {
     std::ifstream patterns("patterns.tsv");
+    int           count_cases    = 0;
+    int           count_failures = 0;
     std::string   s;
     while(std::getline(patterns, s).good())
     {
+        ++count_cases;
         Pattern     pattern(s);
         std::string actual = solve(pattern.input);
         if(actual != pattern.expected)
         {
+            ++count_failures;
             std::cout << "Failure in " << pattern.name << "\n"
                       << "expected: \"" << pattern.expected << "\"\n"
                       << "  actual: \"" << actual << "\"\n";
         }
     }
+    std::cout << "\nCases: " << count_cases << "  Failures: " << count_failures << "\n";
 
     return 0;
 }
@@ -47,4 +52,6 @@ int main(int, char* [])
 Failure in #2
 expected: "13245"
   actual: "12345"
+
+Cases: 3  Failures: 1
 */

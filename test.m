@@ -86,8 +86,8 @@ int main(int argc, const char * argv[])
     @autoreleasepool {
         NSError  *error     = nil;
         NSString *tsvString = [NSString stringWithContentsOfFile:InputFileName
-                                                              encoding:NSUTF8StringEncoding
-                                                                error:&error];
+                                                        encoding:NSUTF8StringEncoding
+                                                           error:&error];
         int countOfCases    = 0;
         int countOfFailures = 0;
         

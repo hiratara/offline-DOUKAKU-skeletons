@@ -65,7 +65,7 @@ static NSString *const InputFileName = @"patterns.tsv";
         int const expectedCountOfComponents = 3;
         NSArray  *components                = [inputString componentsSeparatedByString:@"\t"];
         
-        if ([components count] == expectedCountOfComponents) {
+        if ([components count] >= expectedCountOfComponents) {
             self.name     = [components objectAtIndex:0];
             self.input    = [components objectAtIndex:1];
             self.expected = [components objectAtIndex:2];
@@ -86,8 +86,8 @@ int main(int argc, const char * argv[])
     @autoreleasepool {
         NSError  *error     = nil;
         NSString *tsvString = [NSString stringWithContentsOfFile:InputFileName
-                                                              encoding:NSUTF8StringEncoding
-                                                                error:&error];
+                                                        encoding:NSUTF8StringEncoding
+                                                           error:&error];
         int countOfCases    = 0;
         int countOfFailures = 0;
         
